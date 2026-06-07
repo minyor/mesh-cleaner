@@ -9,12 +9,13 @@ static void printUsage(const char* programName) {
     std::cerr << "MeshCleaner - Remove degenerate faces, non-manifold edges, and close holes in OBJ meshes." << std::endl;
     std::cerr << std::endl;
     std::cerr << "Usage:" << std::endl;
-    std::cerr << "  " << programName << " <input.obj> <output.obj>                  Remove bad geometry and close holes" << std::endl;
-    std::cerr << "  " << programName << " rewind <input.obj> <output.obj>           Same as above, then orient normals" << std::endl;
+    std::cerr << "  " << programName << " <input.obj>                                Remove bad geometry and close holes (overwrite)" << std::endl;
+    std::cerr << "  " << programName << " <input.obj> <output.obj>                   Remove bad geometry and close holes" << std::endl;
+    std::cerr << "  " << programName << " rewind <input.obj> [<output.obj>]          Same as above, then orient normals" << std::endl;
 }
 
 int main(int argc, char* argv[]) {
-    if (argc != 3 && argc != 4) {
+    if (argc < 2 || argc > 4) {
         printUsage(argv[0]);
         return 1;
     }
@@ -23,13 +24,24 @@ int main(int argc, char* argv[]) {
     std::string inputPath;
     std::string outputPath;
 
-    if (argc == 3) {
-        inputPath = argv[1];
-        outputPath = argv[2];
-    } else {
+    // Check if first argument is a mode keyword
+    bool hasMode = (argc >= 3 && (std::string(argv[1]) == "rewind"));
+
+    if (hasMode) {
         operation = argv[1];
         inputPath = argv[2];
-        outputPath = argv[3];
+        if (argc == 4) {
+            outputPath = argv[3];
+        } else {
+            outputPath = inputPath;
+        }
+    } else {
+        inputPath = argv[1];
+        if (argc == 3) {
+            outputPath = argv[2];
+        } else {
+            outputPath = inputPath;
+        }
     }
 
     std::cout << "Loading OBJ file: " << inputPath << std::endl;

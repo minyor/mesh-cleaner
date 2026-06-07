@@ -20,10 +20,14 @@ make
 ## Usage
 
 ```bash
-# Remove bad geometry and close holes
+# Remove bad geometry and close holes (overwrite input file)
+./build/MeshCleaner input.obj
+
+# Remove bad geometry and close holes (save to output file)
 ./build/MeshCleaner input.obj output.obj
 
 # Same as above, then orient normals
+./build/MeshCleaner rewind input.obj
 ./build/MeshCleaner rewind input.obj output.obj
 ```
 
