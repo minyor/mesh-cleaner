@@ -1,0 +1,19 @@
+# Build
+build/
+
+# Output files
+*.obj
+
+# VSCode
+.vscode/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Vim
+*.swp
+*.swo
+*~
